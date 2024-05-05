@@ -19,6 +19,35 @@ crusherAmt.toDestination();
 synthAlien.connect(crusherAmtAlien);
 crusherAmtAlien.toDestination();
 
+// Create a synth and a filter
+let shipDestroyedSynth = new Tone.Synth({
+  oscillator: {
+      type: 'sawtooth'
+  }
+}).toDestination();
+
+let filter = new Tone.Filter({
+  type: 'lowpass',
+  frequency: 8000
+}).toDestination();
+
+// Initialize a Volume control node
+let volumeControl = new Tone.Volume(-30).toDestination();  // Start with a default volume of -12 dB
+
+// Adjust the existing connections to include the volume node
+shipDestroyedSynth.chain(volumeControl, Tone.Destination);
+filter.chain(volumeControl, Tone.Destination);
+
+// Create an LFO to modulate the filter frequency
+let lfo = new Tone.LFO({
+  frequency: 5, // Speed of the LFO modulation in Hz
+  min: 100, // Minimum frequency of the filter
+  max: 8000 // Maximum frequency of the filter
+}).start();
+
+// Connect the LFO to the filter frequency
+lfo.connect(filter.frequency);
+
 let backgroundMusic = new Tone.Sampler({
   urls: {
     C3: "C3.mp3",
@@ -127,6 +156,7 @@ function gameScreen() {
           score += enemies[j].pointValue;
           enemies.splice(j, 1); // remove the enemy from the array
           console.log('enemy hit');
+          playShipDestroyedSound();
           break;
         }
       }
@@ -136,6 +166,8 @@ function gameScreen() {
         console.log('ship hit');
         // screen = 2;
         ship.hit();
+
+        playShipDestroyedSound();
         // lives--;
         // break;
       }
@@ -220,6 +252,10 @@ function startBackgroundMusic() {
 
 function stopBackgroundMusic() {
   Tone.Transport.stop();
+}
+
+function playShipDestroyedSound() {
+  shipDestroyedSynth.triggerAttackRelease("C3", "2n");
 }
 
 function mousePressed() {
