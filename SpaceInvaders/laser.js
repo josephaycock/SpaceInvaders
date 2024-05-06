@@ -4,7 +4,7 @@ class Laser {
         this.y = y;
         this.width = 5;
         this.height = 10;
-        this.toDelete = false; // flag
+        this.toDelete = false;
         this.direction = direction;
     }
     
@@ -15,7 +15,6 @@ class Laser {
     }
 
     move() {
-        // this.y = this.y - 20; // up on the y axis
         if (this.direction === 'up') {
             this.y = this.y - 20;
         } else {

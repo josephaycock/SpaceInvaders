@@ -9,20 +9,17 @@ class Enemy {
     this.imgB = imgB;
     this.currentImg = 'A';
     this.pointValue = pointValue;
-    this.radius = 20; // for collision detection
+    this.radius = 20;
     this.xdir = 1;
+    this.speed = 1;
   }
 
   show() {
     if (this.alive) {
       if (this.currentImg === 'A') {
-        push(); // Use push and pop to isolate styling
+        push();
         imageMode(CENTER);
-        rectMode(CENTER);
-        stroke(255, 0, 0); // Red for bounding box
-        noFill();
         image(this.imgA, this.x, this.y, this.width, this.height);
-        rect(this.x, this.y, this.width, this.height); // Draw bounding box
         pop();
       } else {
         image(this.imgB, this.x, this.y, this.width, this.height);
@@ -49,6 +46,16 @@ class Enemy {
 
   shiftDown() {
     this.xdir *= -1;
-    this.y += this.height;
+    this.y += 20;
+
+    if (this.y > height - 100) {
+      screen = 2;
+    }
+
+    if (this.xdir > 0) {
+      this.xdir += this.speed;
+    } else {
+      this.xdir -= this.speed;
+    }
   }
 }

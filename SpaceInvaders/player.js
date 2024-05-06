@@ -11,11 +11,11 @@ class Ship {
   
     show() {
         if (this.isHit && this.hitTimer > 0) {
-            fill(255, 0, 0); // Ship turns red when hit
-            this.hitTimer--; // Decrement the timer
+            fill(255, 0, 0); 
+            this.hitTimer--; 
         } else {
-            fill(0, 255, 0); // Normal green color
-            this.isHit = false; // Reset hit flag once timer is over
+            fill(0, 255, 0); 
+            this.isHit = false; 
         }
         noStroke();
         rect(this.x - this.width / 2, this.y, this.width, this.height);
@@ -34,11 +34,11 @@ class Ship {
     hit() {
 
         this.isHit = true;
-        this.hitTimer = 15; // Set the hit effect to last for 30 frames
-        lives--; // Decrement lives
-        this.x = width / 2; // Reset the ship's position
+        this.hitTimer = 15; 
+        lives--;
+        this.x = width / 2; 
         if (lives <= 0) {
-            screen = 2; // Go to end screen if no lives left
+            screen = 2; 
         }
     }
 }
